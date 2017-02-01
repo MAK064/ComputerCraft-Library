@@ -1,0 +1,513 @@
+term.redirect(term.native())
+
+
+local fuelLevel = turtle.getFuelLevel()
+fuelLevel = tonumber(fuelLevel)
+
+local function fuelCheck() -- checks if fuel is low, and then refuels it if so
+dist = tonumber(dist)
+    if 'fuelLevel' < 'dist' then
+        for i=1, 16 do
+            turtle.select(i) -- selects the slot
+            turtle.refuel() -- uses whatever is in the slot for fuel
+        end
+    end
+end
+
+local function gravelCheck() -- checks for gravel, and removes it
+    if turtle.detect() == true then -- detects gravel
+        while turtle.detect() == true do
+            turtle.dig() -- removes the gravel
+            sleep(2) -- waits for 2 seconds, giving the gravel enough time to fall back, making sure it's detected next time
+        end
+    end
+end
+
+local function gravelCheckUp() -- checks for gravel above it this time, and breaks it so it can move upwards.
+    if turtle.detectUp() == true then -- detects the gravel
+        while turtle.detectUp() == true do
+            turtle.digUp() -- removes that darn gravel up above ya'
+            sleep(2) -- the turtle was tired after removing the gravel so it takes a 2 second powernap. All ready to go now!
+        end
+    end
+end
+
+local function bridge() -- places a block underneath it if there isn't one, even places it over water and lava. Pretty cool, huh?
+    if turtle.detectDown() == false then
+        turtle.select(1) -- hopefully slot one is the cobblestone...
+        turtle.placeDown() -- should place down whatever is in slot one
+    end
+end
+
+-- functions for the torches and returning
+
+local dist = 0 -- dist is the string we use for the distance to mine.
+local distMined = 1 -- distMined is the distance we have mined
+
+-- returnBack
+-- placeTorches
+-- tunnelHeight2
+
+local function goBack() -- makes the turtle turn around and travel back to the start
+    if returnBack == true then
+        turtle.turnRight()
+        turtle.turnRight()
+        for i=1, dist do
+          turtle.forward()
+          fuelCheck()
+        end
+    end
+end
+
+local outOfTorches = false
+local placeTorchYet = 4
+
+local function torchPlace()
+    if placeTorches == true then
+      if placeTorchYet == 7 then
+        turtle.select(2)
+        turtle.place()
+        turtle.turnRight()
+        turtle.turnRight()
+        turtle.place()
+        turtle.select(1)
+        if turtle.compare() == true then
+            turtle.dig()
+            local placeTorches = false
+            local outOfTorches = true
+        end
+        local placeTorchYet = 1
+      else local placeTorchYet = placeTorchYet + 1 
+        turtle.turnRight() turtle.turnRight() end
+    else turtle.turnRight() turtle.turnRight() end
+end
+
+-- the excavating sequence
+
+local function excavate2() -- the main digging sequence. put the distance in the brackets
+        turtle.dig()
+        fuelCheck() -- checks for fuel
+        gravelCheck()
+        turtle.forward() -- moves forwards
+        local distMined = distMined +1
+        bridge()
+        turtle.digUp()
+        fuelCheck() -- checks if it's fuel has magically dissappeared somewhere
+        gravelCheckUp() -- checks for gravel above it, so that it can move up.
+        turtle.up() -- moves up like a boss after possibly taking out that gravel
+        turtle.turnLeft()
+        turtle.dig()
+        gravelCheck()
+        torchPlace()
+        turtle.dig()
+        gravelCheck()
+        fuelCheck()
+        turtle.down() -- goes back down
+        turtle.dig()
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.dig()
+        turtle.turnRight() -- ready to go again!
+end
+
+local function excavate3()
+        turtle.dig()
+        gravelCheck()
+        fuelCheck()
+        turtle.forward()
+        local distMined = distMined +1
+        bridge()
+        turtle.digUp()
+        gravelCheckUp()
+        fuelCheck()
+        turtle.up()
+        turtle.digUp()
+        gravelCheckUp()
+        fuelCheck()
+        turtle.up()
+        turtle.turnLeft()
+        turtle.dig()
+        gravelCheck()
+        turtle.turnRight()
+        turtle.turnRight()
+        turtle.dig()
+        gravelCheck()
+        fuelCheck()
+        turtle.down()
+        turtle.dig()
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.dig()
+        torchPlace()
+        turtle.down()
+        turtle.dig()
+        turtle.turnLeft()
+        turtle.turnLeft()
+        turtle.dig()
+        turtle.turnRight()
+end
+
+--Interface
+
+local w,h = term.getSize() -- detects the width and height of the display
+local select = 1 -- shows which menu item is selected
+
+-- functions to draw the Menus
+
+local function printCentered(str, ypos) -- writes the text in the center, written as: ( [Text] , [Y Coordinate] )
+    term.setCursorPos(w/2 - #str/2, ypos)
+    term.write(str)
+end
+
+local function printRight(str, ypos) -- writes the text on the right of the screen. ( [Text] , [Y Coordinate])
+    term.setCursorPos(w - #str, ypos)
+    term.write(str)
+end
+
+-- the Menus
+
+local function drawMenuColour() -- creates the colours of the menu
+    paintutils.drawFilledBox(0, 0, w, 2, colours.cyan) -- top 2 Cyan
+    paintutils.drawFilledBox(0, 3, w, h, colours.grey) -- Bottom Grey
+end
+
+local function drawHeader() -- creates the heading for the Menu
+    term.setBackgroundColour(colours.cyan)
+    term.setTextColour(colours.white)
+    printCentered(" ULTRA EXCAVATOR", 1)
+    printCentered(string.rep("-", w), 2)
+end
+
+local function drawSignature() -- shows that I, Kyle Phillips, made this thing.
+    term.setBackgroundColour(colours.grey)
+    printRight("By Kyle Phillips", h)
+end
+
+function drawMain() -- creates the Main Menu
+    term.setBackgroundColour(colours.grey)
+    printCentered("Info", 4)
+    printCentered("Start", 7)
+    printCentered("Exit", h-3)
+
+    local ypos = 5 -- creats the line under what is selected
+    if select == 2 then ypos = 8
+    elseif select == 3 then ypos = h-2 end
+    printCentered("--------", ypos)
+end
+
+local function drawInfo() -- the information menu
+    local infoList = {
+        "INFORMATION",
+        "  The first slot must be cobblestone.",
+        "   Make sure your Turtle is pre-fuelled,",
+        "  or you can put a fuel item in the",
+        "  slot and it'll refuel automatically.",
+        "  use the 'Start' menu to begin.", 
+}
+	for i=1,#infoList do
+		printCentered(infoList[i], 3 + i)
+	end
+
+	printCentered("Back", h-2)
+	local ypos = h-1;
+	printCentered("------", ypos)
+end
+
+-- The in-mining menu
+
+local function drawMining()
+    term.clear()
+    drawMenuColour()
+    drawHeader()
+    term.setBackgroundColour(colours.grey)
+    term.setTextColour(colours.red)
+    printCentered(" Press the Enter key to stop Mining", 4)
+    term.setTextColour(colours.white)
+    term.setCursorPos(1, 6)
+    print("Progress: ")
+    term.setCursorPos(1, 7)
+    print("Fuel Level: ")
+    
+    local id, key = os.pullEvent("key")
+
+    while true do
+        if tunnelHeight2 == true then excavate2() else excavate3() end
+
+            local fuelLevel = turtle.getFuelLevel()
+            fuelLevel = tonumber(fuelLevel)
+            dist = tonumber(dist)
+
+              term.setCursorPos(10,6)
+              local percentage = (distMined / dist) * 100
+              write(distMined .. "/" .. dist .. " or " .. percentage .. "%")
+              term.setCursorPos(12, 7)
+            if 'distMined' == 'dist' then
+                break
+            end
+    end
+        if returnBack == true then goBack() end
+        term.setBackgroundColour(colours.black)
+        term.clear()
+        term.setTextColour(colours.white)
+        term.setCursorPos(1,1)
+        textutils.slowPrint("Mining Finished!")
+        term.setCursorPos(1,2)
+        textutils.slowPrint("Thank's for using Ultra Excavator!")
+        error()
+end
+
+
+
+-- The Start Menu
+
+local dist = 0
+
+local function drawStart() -- the menu where you input the distance, and a few other variables
+    term.setTextColour(colours.white)
+    term.setCursorPos(2, 4)
+    print("Mining Distance: ") -- this will be set at the beginning
+    term.setCursorPos(2, 6)
+    print("Return Back?") -- 15 forward for button
+    term.setCursorPos(2, 8)
+    print("Place Torches?") -- 17 fwrd 4 button
+    term.setCursorPos(2, 9)
+    term.setTextColour(colours.lightGrey)
+    print("in slot 2")
+    term.setTextColour(colours.white)
+    term.setCursorPos(2, 11)
+    print("Height of Tunnel: ") -- 18 fwrd 4 buttons
+    term.setTextColour(colours.black)
+    term.setCursorPos(19, 4)
+    print("___")
+    term.setTextColour(colours.white)
+end
+
+-- Buttons for the start menu
+
+local x, y = 15,6 -- return back Yes
+local x1N, y1N = 21,6 -- return back No
+local x2, y2 = 17,8 -- place torches Yes
+local x2N, y2N = 23,8 -- place torches No
+local x3, y3 = 20,11 -- tunnel height 2
+local x4, y4 = 24,11 -- tunnel height 3
+local x5, y5 = 2,h -- start mining
+local x6, y6 = 15,h -- back
+local x7, y7 = 21,h -- exit
+local choice1 = " Yes "
+local choice1N = " No  "
+local choice2 = " Yes "
+local choice2N = " No  "
+local choice3 = " 2 "
+local choice4 = " 3 "
+local choice5 = "Start Mining"
+local choice6 = "Reset"
+local choice7 = "Exit"
+
+local function drawButtons()
+
+    local returnBack = true
+    local placeTorches = false
+    local tunnelHeight2 = true
+
+	term.setCursorPos(x,y)
+	term.setBackgroundColour(colours.green)
+	term.setTextColour(colours.black)
+	write(choice1)
+        term.setBackgroundColour(colours.red)
+	    term.setTextColour(colours.black)
+		term.setCursorPos(x1N,y1N)
+		write(choice1N)
+            term.setBackgroundColour(colours.red)
+	        term.setTextColour(colours.black)
+		    term.setCursorPos(x2,y2)
+		    write(choice2)
+                term.setBackgroundColour(colours.green)
+	            term.setTextColour(colours.black)
+		        term.setCursorPos(x2N,y2N)
+		        write(choice2N)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black)
+                    term.setCursorPos(x3,y3)
+                    write(choice3)
+                        term.setBackgroundColour(colours.red)
+                        term.setTextColour(colours.black)
+                        term.setCursorPos(x4,y4)
+                        write(choice4)
+                            term.setBackgroundColour(colours.blue)
+                            term.setTextColour(colours.white)
+                            term.setCursorPos(x5,y5)
+                            write(choice5)
+                                term.setCursorPos(x6,y6)
+                                write(choice6)
+                                    term.setCursorPos(x7,y7)
+                                    write(choice7)
+
+    --reset
+    term.setBackgroundColour(colours.grey)
+    term.setTextColour(colours.white)
+
+
+end -- ends the function
+
+--Menu state
+
+local menustate = "main"
+
+local mopt = {
+  ["main"] = {
+    options = {"info", "start", "quit"},
+    draw = drawMain
+  },
+  ["info"] = {
+    options = {"main"},
+	draw = drawInfo
+  },
+  ["start"] = {
+    options = {},
+	draw = drawStart
+  }
+}
+
+--Run Function
+
+local function runButtons()
+    --  write in the distance
+    term.setTextColour(colours.white)
+    term.setCursorPos(19, 4)
+    local dist = read()
+    write(dist)
+    local returnBack = true
+    local placeTorches = false
+    local tunnelHeight2 = true
+    
+    while true do
+        local event, button, cx, cy = os.pullEvent()
+            if event == "mouse_click" then
+                if cx >= x and cx < choice1:len()+x and cy == y and button == 1 then
+                    term.setCursorPos(15,6)
+                    -- 1st Button clicked!
+                    -- 1st button is return back
+                    local returnBack = true
+                    term.setCursorPos(x,y)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black) --               RETURN BACK TRUE
+                    write(choice1)
+                    term.setCursorPos(x1N,y1N)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black)
+                    write(choice1N)
+                elseif cx >= x1N and cx < choice1N:len()+x1N and cy == y1N and button == 1 then
+                    -- 1.5th Button clicked!
+                    -- 1.5th button is don't return back
+                    local returnBack = false
+                    term.setCursorPos(x,y)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black) --             RETURN BACK FALSE
+                    write(choice1)
+                    term.setCursorPos(x1N,y1N)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black)
+                    write(choice1N)
+                elseif cx >= x2 and cx < choice2:len()+x2 and cy == y2 and button == 1 then
+                    -- 2nd Button clicked!
+                    -- 2nd button is place torches
+                    local placeTorches = true
+                    term.setCursorPos(x2,y2)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black) --               TORCHES TRUE
+                    write(choice2)
+                    term.setCursorPos(x2N,y2N)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black)
+                    write(choice2N)
+                elseif cx >= x2N and cx < choice2N:len()+x2N and cy == y2N and button == 1 then
+                    -- 2nd Button clicked!
+                    -- 2nd button is place torches
+                    local placeTorches = false
+                    term.setCursorPos(x2,y2)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black) --               TORCHES FALSE
+                    write(choice2)
+                    term.setCursorPos(x2N,y2N)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black)
+                    write(choice2N)
+                elseif cx >= x3 and cx < choice3:len()+x3 and cy == y3 and button == 1 then
+                    -- 3rd Button clicked!
+                    -- 3rd button is height of tunnel, height = 2
+                    local tunnelHeight2 = true
+                    term.setCursorPos(x3,y3)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black) --               HEIGHT of TUNNEL = 2
+                    write(choice3)
+                    term.setCursorPos(x4,y4)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black)
+                    write(choice4)
+                elseif cx >= x4 and cx < choice4:len()+x4 and cy == y4 and button == 1 then
+                    -- 4th Button clicked!
+                    -- 4th button is height of tunnel, height = 3
+                    local tunnelHeight2 = false
+                    term.setCursorPos(x3,y3)
+                    term.setBackgroundColour(colours.red)
+                    term.setTextColour(colours.black) --               HEIGHT of TUNNEL = 3
+                    write(choice3)
+                    term.setCursorPos(x4,y4)
+                    term.setBackgroundColour(colours.green)
+                    term.setTextColour(colours.black)
+                    write(choice4)
+                elseif cx >= x5 and cx < choice5:len()+x5 and cy == y5 and button == 1 then
+                    -- 5th Button clicked!
+                    -- 5th button is to start it
+                    drawMining()
+                    break
+                elseif cx >= x6 and cx < choice6:len()+x6 and cy == y6 and button == 1 then
+                    -- 6th Button clicked!
+                    -- 6th button is to reset settings
+                    runMenu()
+                elseif cx >= x7 and cx < choice7:len()+x7 and cy == y7 and button == 1 then
+                    -- 7th Button clicked!
+                    -- 7th button is to exit the program
+                    os.reboot()
+                end
+            end
+    end
+end
+
+function runMenu()
+  while true do
+    term.clear()
+    drawMenuColour()
+    drawHeader()
+    term.setBackgroundColour(colours.grey)
+    mopt[menustate].draw()
+    if menustate == "main" then
+      drawSignature()
+    elseif menustate == "start" then
+      drawButtons()
+    end
+
+    local id, key = os.pullEvent("key")
+    --UP = 200, DOWN = 208, LEFT 203, RIGHT 205, ENTER = 28
+    
+    if menustate ~= "start" then
+        if key == 200 and select > 1 then select = select-1
+        elseif key == 208 and select < #mopt[menustate].options then select = select+1
+        elseif key == 28 then
+          if mopt[menustate].options[select] == "quit" then 
+            term.setBackgroundColour(colours.black) break 
+          end
+        menustate = mopt[menustate].options[select]
+        end
+    elseif menustate == "start" then -- This is the start menu
+        runButtons()
+        break
+    elseif menustate == "mining" then
+        break    
+    end
+  end
+end
+
+runMenu()
+term.clear()
+term.setCursorPos(1,1)
