@@ -375,7 +375,6 @@ local function runButtons()
     term.setTextColour(colours.white)
     term.setCursorPos(19, 4)
     local dist = read()
-    write(dist)
     local returnBack = true
     local placeTorches = false
     local tunnelHeight2 = true
