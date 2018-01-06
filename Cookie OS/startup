@@ -1,0 +1,40 @@
+--Displays startup splash
+local w, h = term.getSize()
+paintutils.drawFilledBox(1,1,w,h,colours.black)
+
+
+local function drawTitle()
+  paintutils.drawFilledBox(1,1,w,2,colours.orange)
+  term.setTextColour(colours.black)
+  term.setCursorPos(9,1)
+  print("COOKIE OS")
+  term.setCursorPos(1,2)
+  print(string.rep("=", w))
+end
+
+local function drawCookie()
+  cookie = paintutils.loadImage("Images/cookie")
+  paintutils.drawImage(cookie, 7, 6)
+end
+
+local function drawCredits()
+  term.setTextColour(colours.white)
+  term.setBackgroundColor(colours.black)
+  paintutils.drawFilledBox(1,h-2,w,h,colours.grey)
+  term.setCursorPos(1,h-2)
+  print("Developed By")
+  term.setTextColour(colours.lightBlue)
+  term.write("Kyle Phillips, Josh Moylan")
+  term.setCursorPos(1,h)
+  term.write("and Matt Kirk")
+end
+
+drawTitle()
+drawCookie()
+drawCredits()
+
+sleep(3)
+
+term.setBackgroundColor(colours.black)
+term.clear()
+term.setCursorPos(1,1)
