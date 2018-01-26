@@ -1,0 +1,4 @@
+local w, h = term.getSize()
+paintutils.drawFilledBox(1,1,w,h,colours.black)
+
+print("This is the main menu, which was loaded by the startup file")
