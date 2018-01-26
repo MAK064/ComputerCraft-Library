@@ -38,3 +38,5 @@ sleep(3)
 term.setBackgroundColor(colours.black)
 term.clear()
 term.setCursorPos(1,1)
+
+shell.run("main")
