@@ -2,7 +2,6 @@
 local w, h = term.getSize()
 paintutils.drawFilledBox(1,1,w,h,colours.black)
 
-
 local function drawTitle()
   paintutils.drawFilledBox(1,1,w,2,colours.orange)
   term.setTextColour(colours.black)
@@ -18,25 +17,41 @@ local function drawCookie()
 end
 
 local function drawCredits()
-  term.setTextColour(colours.white)
-  term.setBackgroundColor(colours.black)
-  paintutils.drawFilledBox(1,h-2,w,h,colours.grey)
-  term.setCursorPos(1,h-2)
-  print("Developed By")
-  term.setTextColour(colours.lightBlue)
-  term.write("Kyle Phillips, Josh Moylan")
-  term.setCursorPos(1,h)
-  term.write("and Matt Kirk")
+  term.setTextColour(colours.black)
+  term.setBackgroundColor(colours.orange)
+  paintutils.drawFilledBox(1,h-3,w,h,colours.orange)
+  term.setCursorPos(1,h-3)
+  print(string.rep("-", w))
+  term.setCursorPos(8,h-2)
+  print("DEVELOPED BY")
+  term.setTextColour(colours.grey)
+  term.write("KYLE PHILLIPS, JOSH MOYLAN")
+  term.setCursorPos(8,h)
+  term.write("&  MATT KIRK")
+end
+
+local function drawMilk()
+  milk = paintutils.loadImage("Images/milk")
+  for i=0,h do
+    paintutils.drawImage(milk, math.random(-4,1), h-i)
+    sleep(0.02)
+  end
+end
+
+local function drawCurtain()
+  sleep(1)
+  for n=0,13 do
+    paintutils.drawFilledBox(0,0,n,h,colours.lightBlue)
+    paintutils.drawFilledBox(w-n,0,w,h,colours.lightBlue)
+    sleep(0.01)
+  end
 end
 
 drawTitle()
 drawCookie()
 drawCredits()
 
-sleep(3)
-
-term.setBackgroundColor(colours.black)
-term.clear()
-term.setCursorPos(1,1)
+sleep(1.5)
+parallel.waitForAll(drawCurtain,drawMilk)
 
 shell.run("main")
