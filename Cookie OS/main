@@ -1,4 +1,26 @@
+-- getting the size of the display
 local w, h = term.getSize()
-paintutils.drawFilledBox(1,1,w,h,colours.black)
 
-print("This is the main menu, which was loaded by the startup file")
+-- drawing the background colours
+local function drawBackground()
+  paintutils.drawFilledBox(1,1,w,h,colours.black)
+  paintutils.drawFilledBox(1,1,w,1,colours.orange)
+end
+
+-- draws the time
+local function drawTime()
+  while true do
+    sleep(0)
+    local time = os.time()
+    term.setCursorPos(1,1)
+    write(textutils.formatTime(time, false) .. " ")
+  end
+end
+
+local function drawApp1()
+  sleep(1)
+  -- stuff
+end
+
+drawBackground()
+drawTime()
