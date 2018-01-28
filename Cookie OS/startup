@@ -12,26 +12,27 @@ local function drawTitle()
 end
 
 local function drawCookie()
-  cookie = paintutils.loadImage("Images/cookie")
+  cookie = paintutils.loadImage("images/cookie")
   paintutils.drawImage(cookie, 7, 6)
 end
 
 local function drawCredits()
   term.setTextColour(colours.black)
-  term.setBackgroundColor(colours.orange)
+  term.setBackgroundColour(colours.orange)
   paintutils.drawFilledBox(1,h-3,w,h,colours.orange)
   term.setCursorPos(1,h-3)
   print(string.rep("-", w))
   term.setCursorPos(8,h-2)
   print("DEVELOPED BY")
   term.setTextColour(colours.grey)
-  term.write("KYLE PHILLIPS, JOSH MOYLAN")
-  term.setCursorPos(8,h)
-  term.write("&  MATT KIRK")
+  term.setCursorPos(2,h-1)
+  term.write("KYLE PHILLIPS, MATT KIRK")
+  term.setCursorPos(6,h)
+  term.write("&  JOSHUA MOYLAN")
 end
 
 local function drawMilk()
-  milk = paintutils.loadImage("Images/milk")
+  milk = paintutils.loadImage("images/milk")
   for i=0,h do
     paintutils.drawImage(milk, math.random(-4,1), h-i)
     sleep(0.02)
@@ -41,8 +42,8 @@ end
 local function drawCurtain()
   sleep(1)
   for n=0,13 do
-    paintutils.drawFilledBox(0,0,n,h,colours.lightBlue)
-    paintutils.drawFilledBox(w-n,0,w,h,colours.lightBlue)
+    paintutils.drawFilledBox(0,0,n,h,colours.black)
+    paintutils.drawFilledBox(w-n,0,w,h,colours.black)
     sleep(0.01)
   end
 end
@@ -54,4 +55,4 @@ drawCredits()
 sleep(1.5)
 parallel.waitForAll(drawCurtain,drawMilk)
 
-shell.run("main")
+shell.run("main.lua")
