@@ -2,14 +2,12 @@
 local w, h = term.getSize()
 
 --loading the config file
-local function loadConfig()
-  local lines = {}
-  local config = fs.open( "config.cfg", "r" )
-  for line in config.readLine do
-      lines[#lines+1] = line
-  end
-  config.close()
+local lines = {}
+local cfg = fs.open( "programs/config", "r" )
+for line in cfg.readLine do
+    lines[#lines+1] = line
 end
+cfg.close()
 
 --[[
 The config is now saved as a table, and each line of the config may be called using:
@@ -17,6 +15,12 @@ For line x = lines[x]
 To write to config or change that one specific line, use:
 lines[y] = foo
 ]]
+
+--Now time to load config settings
+
+print(lines[1])
+print(lines[2])
+sleep(1)
 
 -- drawing the background colours
 local function drawBackground()
