@@ -1,6 +1,23 @@
 -- getting the size of the display
 local w, h = term.getSize()
 
+--loading the config file
+local function loadConfig()
+  local lines = {}
+  local config = fs.open( "config.cfg", "r" )
+  for line in config.readLine do
+      lines[#lines+1] = line
+  end
+  config.close()
+end
+
+--[[
+The config is now saved as a table, and each line of the config may be called using:
+For line x = lines[x]
+To write to config or change that one specific line, use:
+lines[y] = foo
+]]
+
 -- drawing the background colours
 local function drawBackground()
   paintutils.drawFilledBox(1,1,w,h,colours.lightGrey)
@@ -20,14 +37,15 @@ local function drawHeader()
 end
 
 local function drawTriggers() -- Matt is triggered
+  -- Background colour
+  paintutils.drawFilledBox(2,3,3,4,bgColour)
+  -- Startup splash on or off
   paintutils.drawFilledBox(2,3,3,3,colours.grey)
   paintutils.drawPixel(3,3,colours.lime)
   term.setBackgroundColour(colours.lightGrey)
   term.setCursorPos(5,3)
   write("Startup Splash")
 end
-
-term.setBackgroundColour
 
 drawBackground()
 drawTriggers()
