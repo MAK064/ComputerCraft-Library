@@ -21,17 +21,17 @@ modem.open(21)
 
 while true do
 local side, frequency, replyFrequency, message = os.pullEvent(modem_message)
-  if frequency == 1
-    then modem.transmit(10, replyFrequency, message)
-   modem.transmit(11, replyFrequency, message)
-  
-    elseif frequency == 2
-    then modem.transmit(20, replyFrequency, message)
-    modem.transmit(21, replyFrequency, message)
-  
-    elseif frequency == 100
-    then m.print(frequency : message)
-  
-    else modem.transmit(replyFrequency, 100, "The contact you have specified could not be found")
-  end
+	if frequency ~= nil
+		then print(replyFrequency .. ":" .. message)
+		if frequency == 1
+			then modem.transmit(10, replyFrequency, message)
+			modem.transmit(11, replyFrequency, message)
+
+		elseif frequency == 2
+			then modem.transmit(20, replyFrequency, message)
+			modem.transmit(21, replyFrequency, message)
+		else
+			modem.transmit(replyFrequency, 100, "The contact you have specified could not be found")
+		end
+	end
 end
