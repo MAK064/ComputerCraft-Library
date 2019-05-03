@@ -1,3 +1,7 @@
+-- run with these two commands:
+-- wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/installer installer
+-- installer
+
 print("Installing CookieOS")
 
 repository = "https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/"
