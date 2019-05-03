@@ -1,58 +1,72 @@
---Displays startup splash
-local w, h = term.getSize()
-paintutils.drawFilledBox(1,1,w,h,colours.black)
-
-local function drawTitle()
-  paintutils.drawFilledBox(1,1,w,2,colours.orange)
-  term.setTextColour(colours.black)
-  term.setCursorPos(9,1)
-  print("COOKIE OS")
-  term.setCursorPos(1,2)
-  print(string.rep("=", w))
+local lines = {}
+local cfg = fs.open( "programs/config", "r" )
+for line in cfg.readLine do
+    lines[#lines+1] = line
 end
+cfg.close()
 
-local function drawCookie()
-  cookie = paintutils.loadImage("images/cookie")
-  paintutils.drawImage(cookie, 7, 6)
-end
+bgColour = lines[1]
+fastBoot = lines[2]
 
-local function drawCredits()
-  term.setTextColour(colours.black)
-  term.setBackgroundColour(colours.orange)
-  paintutils.drawFilledBox(1,h-3,w,h,colours.orange)
-  term.setCursorPos(1,h-3)
-  print(string.rep("-", w))
-  term.setCursorPos(8,h-2)
-  print("DEVELOPED BY")
-  term.setTextColour(colours.grey)
-  term.setCursorPos(2,h-1)
-  term.write("KYLE PHILLIPS, MATT KIRK")
-  term.setCursorPos(6,h)
-  term.write("&  JOSHUA MOYLAN")
-end
+if fastBoot == "yes" then
+  shell.run("main.lua")
+else
+  --Displays startup splash
+  local w, h = term.getSize()
+  paintutils.drawFilledBox(1,1,w,h,colours.black)
 
-local function drawMilk()
-  milk = paintutils.loadImage("images/milk")
-  for i=0,h do
-    paintutils.drawImage(milk, math.random(-4,1), h-i)
-    sleep(0.02)
+  local function drawTitle()
+    paintutils.drawFilledBox(1,1,w,2,colours.orange)
+    term.setTextColour(colours.black)
+    term.setCursorPos(9,1)
+    print("COOKIE OS")
+    term.setCursorPos(1,2)
+    print(string.rep("=", w))
   end
-end
 
-local function drawCurtain()
-  sleep(1)
-  for n=0,13 do
-    paintutils.drawFilledBox(0,0,n,h,colours.black)
-    paintutils.drawFilledBox(w-n,0,w,h,colours.black)
-    sleep(0.01)
+  local function drawCookie()
+    cookie = paintutils.loadImage("images/cookie")
+    paintutils.drawImage(cookie, 7, 6)
   end
+
+  local function drawCredits()
+    term.setTextColour(colours.black)
+    term.setBackgroundColour(colours.orange)
+    paintutils.drawFilledBox(1,h-3,w,h,colours.orange)
+    term.setCursorPos(1,h-3)
+    print(string.rep("-", w))
+    term.setCursorPos(8,h-2)
+    print("DEVELOPED BY")
+    term.setTextColour(colours.grey)
+    term.setCursorPos(2,h-1)
+    term.write("KYLE PHILLIPS, MATT KIRK")
+    term.setCursorPos(6,h)
+    term.write("&  JOSHUA MOYLAN")
+  end
+
+  local function drawMilk()
+    milk = paintutils.loadImage("images/milk")
+    for i=0,h do
+      paintutils.drawImage(milk, math.random(-4,1), h-i)
+      sleep(0.02)
+    end
+  end
+
+  local function drawCurtain()
+    sleep(1)
+    for n=0,13 do
+      paintutils.drawFilledBox(0,0,n,h,colours.black)
+      paintutils.drawFilledBox(w-n,0,w,h,colours.black)
+      sleep(0.01)
+    end
+  end
+
+  drawTitle()
+  drawCookie()
+  drawCredits()
+
+  sleep(1.5)
+  parallel.waitForAll(drawCurtain,drawMilk)
+
+  shell.run("main.lua")
 end
-
-drawTitle()
-drawCookie()
-drawCredits()
-
-sleep(1.5)
-parallel.waitForAll(drawCurtain,drawMilk)
-
-shell.run("main.lua")
