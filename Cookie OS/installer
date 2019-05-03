@@ -24,5 +24,6 @@ shell.run("wget " .. repository .. "images/apps/settings images/apps/settings")
 
 --programs/
 shell.run("wget " .. repository .. "programs/settings.lua programs/settings.lua")
+shell.run("wget " .. repository .. "programs/config programs/config")
 
 print("Done!")
