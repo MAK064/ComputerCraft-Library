@@ -1,2 +1,4 @@
 print("Installing CookieOS")
-shell.run("wget ")
+shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/startup startup")
+shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/main.lua main.lua")
+shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/images/milk images/milk")
