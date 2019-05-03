@@ -1,0 +1,2 @@
+print("Installing CookieOS")
+shell.run("wget ")
