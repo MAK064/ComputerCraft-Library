@@ -1,4 +1,23 @@
 print("Installing CookieOS")
-shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/startup startup")
-shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/main.lua main.lua")
-shell.run("wget https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/images/milk images/milk")
+
+repository = "https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/master/Cookie%20OS/"
+
+--main
+shell.run("wget " .. repository .. "startup startup")
+shell.run("wget " .. repository .. "main.lua main.lua")
+
+--images/
+shell.run("wget " .. repository .. "images/milk images/milk")
+shell.run("wget " .. repository .. "images/cookie images/cookie")
+shell.run("wget " .. repository .. "images/backgroundColourSelector images/backgroundColourSelector")
+--images/apps/
+shell.run("wget " .. repository .. "images/apps/IFTTT images/apps/IFTTT")
+shell.run("wget " .. repository .. "images/apps/calculator images/apps/calculator")
+shell.run("wget " .. repository .. "images/apps/cclickers images/apps/cclickers")
+shell.run("wget " .. repository .. "images/apps/maps images/apps/maps")
+shell.run("wget " .. repository .. "images/apps/settings images/apps/settings")
+
+--programs/
+shell.run("wget " .. repository .. "programs/settings.lua programs/settings.lua")
+
+print("Done!")
