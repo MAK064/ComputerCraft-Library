@@ -58,7 +58,7 @@ local function runSelection()
         shell.run("programs/settings.lua")
       end
       if (event == "mouse_click" and x >= 2 and y >= 8 and x <= 6 and y <= 11) then -- and if that mouse click is on the 2nd app
-        shell.run("programs/cclicker")
+        shell.run("programs/cclicker.lua")
       end
   end
 end
