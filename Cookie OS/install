@@ -9,7 +9,6 @@ repository = "https://raw.githubusercontent.com/MAK064/ComputerCraft-Library/mas
 --main
 shell.run("wget " .. repository .. "startup startup")
 shell.run("wget " .. repository .. "main.lua main.lua")
-shell.run("wget " .. repository .. "cclicker cclicker")
 
 --images/
 shell.run("wget " .. repository .. "images/milk images/milk")
@@ -25,5 +24,8 @@ shell.run("wget " .. repository .. "images/apps/settings images/apps/settings")
 --programs/
 shell.run("wget " .. repository .. "programs/settings.lua programs/settings.lua")
 shell.run("wget " .. repository .. "programs/config programs/config")
+
+shell.run("wget " .. repository .. "programs/cclicker.lua programs/cclicker.lua")
+shell.run("wget " .. repository .. "programs/cclicker.save programs/cclicker.save")
 
 print("Done!")
