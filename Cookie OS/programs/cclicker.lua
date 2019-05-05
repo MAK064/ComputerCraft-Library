@@ -129,7 +129,7 @@ portalPrice = 25000
 
 --loading the save file
 local lines = {}
-local cfg = fs.open( "ccsave", "r" )
+local cfg = fs.open( "programs/cclicker.save", "r" )
 for line in cfg.readLine do
     lines[#lines+1] = line
 end
@@ -513,7 +513,7 @@ lines[5] = round(mineAmount)
 lines[6] = round(factoryAmount)
 lines[7] = round(portalAmount)
 
-local h = fs.open( "ccsave", "w" )
+local h = fs.open( "programs/cclicker.save", "w" )
 for i = 1, #lines do
   h.writeLine( lines[i] )
 end
