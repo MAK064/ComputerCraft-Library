@@ -6,6 +6,10 @@ terminate = false
 cookies = 0
 cps = 0
 
+function round(n)
+  return n % 1 >= 0.5 and math.ceil(n) or math.floor(n)
+end
+
 function printCentered(sText)
     local x, y = term.getCursorPos()
     x = math.max(math.floor((w / 2) - (#sText / 2)), 0)
@@ -41,21 +45,7 @@ local function drawHeadings() -- creates the game statistic displays
 end
 
 local function drawCookie()
-  if pocket then
-    if menustate == "cookie" then
-      paintutils.drawFilledBox(4,7,13,13, colours.orange)
-      paintutils.drawPixel(4,7, colours.grey)
-      paintutils.drawPixel(13,7, colours.grey)
-      paintutils.drawPixel(4,13, colours.grey)
-      paintutils.drawPixel(13,13, colours.grey)
-      paintutils.drawPixel(5,9, colours.black)
-      paintutils.drawPixel(7,12, colours.black) -- W,H,Colour
-      paintutils.drawPixel(10,10, colours.black)
-      paintutils.drawPixel(8,8, colours.black)
-      paintutils.drawPixel(11,12, colours.black)
-      paintutils.drawPixel(12,9, colours.black)
-    end
-  else
+  if menustate == "cookie" then
     paintutils.drawFilledBox(4,7,13,13, colours.orange)
     paintutils.drawPixel(4,7, colours.grey)
     paintutils.drawPixel(13,7, colours.grey)
@@ -130,20 +120,36 @@ local function exitPrompt()
   end
 end
 
---The upgrade menu panel
-
-pickaxeAmount = 0
 pickaxePrice = 25
-villagerAmount = 0
 villagerPrice = 75
-farmAmount = 0
 farmPrice = 300
-mineAmount = 0
 minePrice = 1000
-factoryAmount = 0
 factoryPrice = 7500
-portalAmount = 0
 portalPrice = 25000
+
+--loading the save file
+local lines = {}
+local cfg = fs.open( "ccsave", "r" )
+for line in cfg.readLine do
+    lines[#lines+1] = line
+end
+cfg.close()
+
+--[[
+The save file is now saved as a table, and each line of the save data may be called using:
+For line x = lines[x]
+To write to the save file or change one specific line, use:
+lines[y] = foo
+]]
+
+--Load save file
+cookies = round(lines[1])
+pickaxeAmount = round(lines[2])
+villagerAmount = round(lines[3])
+farmAmount = round(lines[4])
+mineAmount = round(lines[5])
+factoryAmount = round(lines[6])
+portalAmount = round(lines[7])
 
 local function drawUpgrades()
   if pocket then -- checks to see if it's a pocket computer
@@ -498,5 +504,19 @@ while true do
     drawCookie()
   end
 end
+
+lines[1] = round(cookies) 
+lines[2] = round(pickaxeAmount)
+lines[3] = round(villagerAmount)
+lines[4] = round(farmAmount)
+lines[5] = round(mineAmount)
+lines[6] = round(factoryAmount)
+lines[7] = round(portalAmount)
+
+local h = fs.open( "ccsave", "w" )
+for i = 1, #lines do
+  h.writeLine( lines[i] )
+end
+h.close()
 
 shell.run("main.lua")
