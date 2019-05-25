@@ -1,5 +1,3 @@
-print("calculator.lua")
-
 -- getting the size of the display
 local w, h = term.getSize()
 

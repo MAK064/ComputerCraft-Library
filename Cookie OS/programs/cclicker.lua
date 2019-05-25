@@ -1,6 +1,4 @@
 local w, h = term.getSize() -- First getting the size of the computer screen display
--- A computer term will be 51 x 19
--- A pocket computer will be 26 x 20
 menustate = "cookie"
 terminate = false
 cookies = 0
@@ -152,137 +150,15 @@ factoryAmount = round(lines[6])
 portalAmount = round(lines[7])
 
 local function drawUpgrades()
-  if pocket then -- checks to see if it's a pocket computer
   drawMenuSwap()
-    if menustate == "upgrades" then
-      --PICKAXE Upgrade menu
-      if cookies >= pickaxePrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-24, 4, w-14, 7, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-24, 4, w-14, 7, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      -- Writing the text
-      term.setCursorPos(w-22,4)
-      print("Pickaxe")
-      term.setCursorPos(w-22,5)
-      print("0.3 CPS")
-      term.setCursorPos(w-22,6)
-      print("$",pickaxePrice)
-      term.setCursorPos(w-22,7)
-      print("Own: ",pickaxeAmount)
-
-      --VILLAGER upgrade menu
-      if cookies >= villagerPrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-11, 4, w-1, 7, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-11, 4, w-1, 7, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      --Writing the text
-      term.setCursorPos(w-10,4)
-      print("Villager")
-      term.setCursorPos(w-10,5)
-      print("1 CPS")
-      term.setCursorPos(w-10,6)
-      print("$",villagerPrice)
-      term.setCursorPos(w-10,7)
-      print("Own: ",villagerAmount)
-
-      -- FARM upgrade menu
-      if cookies >= farmPrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-24, 9, w-14, 12, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-24, 9, w-14, 12, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      --Writing the text
-      term.setCursorPos(w-22,9)
-      print("Farm")
-      term.setCursorPos(w-22,10)
-      print("3 CPS")
-      term.setCursorPos(w-22,11)
-      print("$",farmPrice)
-      term.setCursorPos(w-22,12)
-      print("Own: ",farmAmount)
-
-      --Mine Upgrade Menu
-      if cookies >= minePrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-11, 9, w-1, 12, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-11, 9, w-1, 12, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      --Writing the text
-      term.setCursorPos(w-10,9)
-      print("Mine")
-      term.setCursorPos(w-10,10)
-      print("5 CPS")
-      term.setCursorPos(w-10,11)
-      print("$",minePrice)
-      term.setCursorPos(w-10,12)
-      print("Own: ",mineAmount)
-
-      --Factory Upgrade Menu
-      if cookies >= factoryPrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-24, 14, w-14, 17, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-24, 14, w-14, 17, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      --Writing the text
-      term.setCursorPos(w-22,14)
-      print("Factory")
-      term.setCursorPos(w-22,15)
-      print("15 CPS")
-      term.setCursorPos(w-22,16)
-      print("$",factoryPrice)
-      term.setCursorPos(w-22,17)
-      print("Own: ",factoryAmount)
-
-      --Portal Upgrade Menu
-      if cookies >= portalPrice then -- If you have enough money, it's green
-        paintutils.drawFilledBox(w-11, 14, w-1, 17, colours.green)
-        term.setTextColour(colours.black)
-        term.setBackgroundColour(colours.green)
-      else -- If you don't have enough money, it's red
-        paintutils.drawFilledBox(w-11, 14, w-1, 17, colours.red)
-        term.setTextColour(colours.white)
-        term.setBackgroundColour(colours.red)
-      end
-      --Writing the text
-      term.setCursorPos(w-10,14)
-      print("Portal")
-      term.setCursorPos(w-10,15)
-      print("50 CPS")
-      term.setCursorPos(w-10,16)
-      print("$",portalPrice)
-      term.setCursorPos(w-10,17)
-      print("Own: ",portalAmount)
-    end
-  else -- if it's an ordinary computer
+  if menustate == "upgrades" then
     --PICKAXE Upgrade menu
     if cookies >= pickaxePrice then -- If you have enough money, it's green
-      paintutils.drawFilledBox(w-23, 4, w-13, 7, colours.green)
+      paintutils.drawFilledBox(w-24, 4, w-14, 7, colours.green)
       term.setTextColour(colours.black)
       term.setBackgroundColour(colours.green)
     else -- If you don't have enough money, it's red
-      paintutils.drawFilledBox(w-23, 4, w-13, 7, colours.red)
+      paintutils.drawFilledBox(w-24, 4, w-14, 7, colours.red)
       term.setTextColour(colours.white)
       term.setBackgroundColour(colours.red)
     end
@@ -318,11 +194,11 @@ local function drawUpgrades()
 
     -- FARM upgrade menu
     if cookies >= farmPrice then -- If you have enough money, it's green
-      paintutils.drawFilledBox(w-23, 9, w-13, 12, colours.green)
+      paintutils.drawFilledBox(w-24, 9, w-14, 12, colours.green)
       term.setTextColour(colours.black)
       term.setBackgroundColour(colours.green)
     else -- If you don't have enough money, it's red
-      paintutils.drawFilledBox(w-23, 9, w-13, 12, colours.red)
+      paintutils.drawFilledBox(w-24, 9, w-14, 12, colours.red)
       term.setTextColour(colours.white)
       term.setBackgroundColour(colours.red)
     end
@@ -358,11 +234,11 @@ local function drawUpgrades()
 
     --Factory Upgrade Menu
     if cookies >= factoryPrice then -- If you have enough money, it's green
-      paintutils.drawFilledBox(w-23, 14, w-13, 17, colours.green)
+      paintutils.drawFilledBox(w-24, 14, w-14, 17, colours.green)
       term.setTextColour(colours.black)
       term.setBackgroundColour(colours.green)
     else -- If you don't have enough money, it's red
-      paintutils.drawFilledBox(w-23, 14, w-13, 17, colours.red)
+      paintutils.drawFilledBox(w-24, 14, w-14, 17, colours.red)
       term.setTextColour(colours.white)
       term.setBackgroundColour(colours.red)
     end
@@ -505,7 +381,7 @@ while true do
   end
 end
 
-lines[1] = round(cookies) 
+lines[1] = round(cookies)
 lines[2] = round(pickaxeAmount)
 lines[3] = round(villagerAmount)
 lines[4] = round(farmAmount)
