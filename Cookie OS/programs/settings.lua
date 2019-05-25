@@ -157,7 +157,7 @@ local function runSelection()
       end
       fastBoot = lines[2]
       drawTriggers()
-    elseif (event == "mouse_click" and x >= 2 and x <= 5 and y == h-1) then -- if clicked on the Fast Boot
+    elseif (event == "mouse_click" and x >= 2 and x <= 5 and y == h-1) then -- if clicked on exit
       break
     end
   end
