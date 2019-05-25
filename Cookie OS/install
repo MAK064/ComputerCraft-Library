@@ -24,8 +24,10 @@ shell.run("wget " .. repository .. "images/apps/settings images/apps/settings")
 --programs/
 shell.run("wget " .. repository .. "programs/settings.lua programs/settings.lua")
 shell.run("wget " .. repository .. "programs/config programs/config")
+shell.run("wget " .. repository .. "programs/calculator.lua programs/calculator.lua")
 
 shell.run("wget " .. repository .. "programs/cclicker.lua programs/cclicker.lua")
 shell.run("wget " .. repository .. "programs/cclicker.save programs/cclicker.save")
 
 print("Done!")
+shell.run("reboot")
